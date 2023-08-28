@@ -1,0 +1,30 @@
+{
+  "name": "audio-slicer",
+  "version": "1.0.0",
+  "description": "A Node.js module to split audio files into segments. This module accepts audio data buffers as input and returns an array of Buffers representing the sliced audio segments.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "keywords": [
+    "audio",
+    "slicer",
+    "ffmpeg"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AliAryanTech/audio-slicer.git"
+  },
+  "homepage": "https://github.com/AliAryanTech/audio-slicer",
+  "author": "AliAryanTech",
+  "license": "MIT",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "ffmpeg-static": "^5.2.0",
+    "fs-extra": "^10.0.0",
+    "os": "^0.1.2",
+    "path": "^0.12.7",
+    "util": "^0.12.3"
+  }
+}
