@@ -8,7 +8,7 @@ const audioToSlice = async (buffer, seconds) => {
   if (!buffer || !seconds)
     throw new Error('Both audio buffer and seconds are required.');
 
-  const filename = path.join(tmpdir(), `${Math.random().toString(36)}.mp3`);
+  const filename = path.join(tmpdir(), `${new Date().getDate()}_${new Date().getTime()}.mp3`);
   await fs.writeFile(filename, buffer);
   try {
     const directory = 'temporary';
