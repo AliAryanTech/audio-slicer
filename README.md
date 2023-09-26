@@ -15,10 +15,12 @@ yarn add audio-slicer
 ```
 
 ### Usage:
-The `audio-slicer` module provides a function `audioToSlice(buffer, seconds)` that takes two parameters:
+The `audio-slicer` module provides a function `audioToSlice(buffer, seconds, video)` that takes three parameters:
 
 - `buffer` (required): The audio data buffer you want to slice. This should be a Buffer containing the audio content you want to split.
 - `seconds` (required): The duration of each segment in seconds.
+- `video` (optional, default is false): A boolean indicating whether the media is video (true) or audio (false).
+
 Here's an example usage:
 ```js
 const { audioToSlice } = require('audio-slicer')
@@ -26,15 +28,17 @@ const { readFile } = require('fs-extra')
 
 (async () => {
   try {
-    // Read the audio file as a buffer
-    const audio = await readFile('./audio.mp3')
-    // Specify segment duration in seconds (e.g., 75 seconds)
-    const seconds = 75
-    // Call the audioToSlice function
-    const buffers = await audioToSlice(audio, seconds)
+    // Read the media file as a buffer (can be audio or video)
+    const media = await readFile('./media.mp4')
+    // Specify segment duration in seconds (e.g., 60 seconds)
+    const seconds = 60
+    // Specify whether it's video (true) or audio (false)
+    const video = true
+    // Call the mediaToSlice function
+    const buffers = await audioToSlice(media, seconds, video)
     console.log(`Sliced into ${buffers.length} segments.`)
   } catch (error) {
-    console.error('Error slicing audio:', error.message)
+    console.error('Error slicing media:', error.message)
   }
 })()
 ```
