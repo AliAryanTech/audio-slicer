@@ -27,7 +27,11 @@ const audioToSlice = async (buffer, seconds, video = false) => {
 }
 
 const audioMerge = async (audios) => {
-    if (audios.length < 2) return audios[0] || [];
+    if (!Array.isArray(audios) || audios.length < 2) {
+        console.error('Input should be an array with at least two audio buffers.');
+        return audios?.[0] || [];
+    }
+
     try {
         const directory = 'temporary_merge';
         await fs.ensureDir(directory);
