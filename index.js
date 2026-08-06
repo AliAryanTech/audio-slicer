@@ -3,6 +3,7 @@ const { promisify } = require('util');
 const exec = promisify(require('child_process').exec);
 const fs = require('fs-extra');
 const path = require('path');
+const ffmpegPath = process.env.FFMPEG_PATH || 'ffmpeg';
 
 const audioToSlice = async (buffer, seconds, video = false) => {
   if (!buffer || !seconds)
@@ -15,7 +16,7 @@ const audioToSlice = async (buffer, seconds, video = false) => {
   try {
     const directory = 'temporary';
     await fs.ensureDir(directory);
-    await exec(`ffmpeg -i ${filename} -f segment -segment_time ${seconds} ${options} ${directory}/document_%03d.${extension}`);
+    await exec(`${ffmpegPath} -i ${filename} -f segment -segment_time ${seconds} ${options} ${directory}/document_%03d.${extension}`);
     const files = await fs.readdir(directory);
     const buffers = await Promise.all(files.map(x => fs.readFile(path.join(directory, x))));
     await Promise.all([fs.unlink(filename), fs.remove(directory)]);
@@ -41,9 +42,7 @@ const audioMerge = async (audios) => {
         });
         const filename = path.join(tmpdir(), `${Math.random().toString(36)}.mp3`);
         const files = audios.map((_, index) => `-i ${path.join(directory, `audio_${index}.mp3`)}`).join(' ');
-        await exec(
-            `ffmpeg ${files} -filter_complex concat=n=${audios.length}:v=0:a=1 -strict -2 ${filename}`
-        );
+        await exec(`${ffmpegPath} ${files} -filter_complex concat=n=${audios.length}:v=0:a=1 -strict -2 ${filename}`);
         const buffer = await fs.readFile(filename);
         await Promise.all([fs.unlink(filename), fs.remove(directory)]);
         return buffer;
